@@ -1,0 +1,32 @@
+#include <stdio.h>
+#include <math.h>
+
+int main() {
+    double a = 4;
+    double b = 4;
+    double c = 4;
+    double x1, x2, d;
+      char choice;
+do{
+    d = b*b - 4*a*c;  
+    printf("d = %lf\n", d);
+    
+    if (d > 0) {
+        x1 = (-b + sqrt(d))/(2*a);  
+        x2 = (-b - sqrt(d))/(2*a);  
+        printf("x1 = %lf\n", x1);
+        printf("x2 = %lf\n", x2);
+    }
+    if (d == 0) {
+        x1 = -b/(2*a);
+        printf("x1 = x2 = %lf\n", x1);
+    }
+    if (d < 0) {
+        printf("(d < 0)\n");
+    }
+    printf("\n Continue?:");
+     scanf(" %c", &choice);
+    
+} while (choice =='y'|| choice =='y');
+    return 0;
+}
