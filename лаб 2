@@ -1,0 +1,77 @@
+#include <stdio.h>
+
+int main() {
+    int x, y, k;
+    int N = 4;
+    int M = 2;
+    double matr[N][N];
+    double one_diagonal = 0, twe_diagonal = 0;
+    
+    int A[M][M];
+    int Res[M][M];
+
+    printf("Enter %i digits:\n",N*N );
+    
+    for (x = 0; x < N; x++) {
+        for (y = 0; y < N; y++) {
+            
+            scanf(" %lf", &matr[x][y]);
+        }
+    }
+
+    for (x = 0; x < N; x ++) {
+        one_diagonal += matr[x][x];          
+        twe_diagonal += matr[x][M - x];      
+    }
+
+    printf("one_diagonal: %.2lf\n", one_diagonal);
+    printf("twe_diagonal: %.2lf\n\n", twe_diagonal);
+	
+	for (x = 0; x < M; x++) {
+        for (y = 0; y < M; y++) {
+            scanf(" %d", &A[x][y]);
+        }
+    }
+
+    for (x = 0; x < M; x++) {
+        for (y = 0; y < M; y++) {
+            Res[x][y] = 0;
+            for (k = 0; k < M; k++) {
+                Res[x][y] += A[x][k] * A[k][y];
+            }
+        }
+    }
+
+    printf("Result:\n");
+    for (x = 0; x < M; x++) 
+        for (y = 0; y < M; y++) {
+            printf("%d\t", Res[x][y]);
+        }
+        printf("\n");
+    
+    printf("Enter 4 digits:\n");
+
+    for (x = 0; x < M; x++) {
+        for (y = 0; y < M; y++) {
+            scanf(" %d", &A[x][y]);
+        }
+    }
+
+    for (x = 0; x < M; x++) {
+        for (y = 0; y < M; y++) {
+            Res[x][y] = 0;
+            for (k = 0; k < M; k++) {
+                Res[x][y] += A[x][k] * A[k][y];
+            }
+        }
+    }
+
+    printf("Result:\n");
+    for (x = 0; x < M; x++) {
+        for (y = 0; y < M; y++) {
+            printf("%d\t", Res[x][y]);
+        }
+        printf("\n");
+    }
+    return 0;
+}
