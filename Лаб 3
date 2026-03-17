@@ -1,0 +1,24 @@
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char str[81]; 
+
+    printf("Enter a string");
+
+    if (fgets(str, sizeof(str), stdin)) {
+        
+		int i;
+        for ( i = 0; str[i] != '\0'; i++) {
+            if (str[i] == 'a') {
+                str[i] = 'A';
+            } else if (str[i] == 'b') {
+                str[i] = 'B';
+            }
+        }
+
+        printf("result %s", str);
+    }
+
+    return 0;
+}
