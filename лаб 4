@@ -1,0 +1,49 @@
+1 файл
+#include <stdio.h>
+#include "geometry.h"
+
+int main() {
+    double side1, side2, side3;
+
+    printf("A=? B=? C=? ");
+    if (scanf("%lf %lf %lf", &side1, &side2, &side3) != 3) {
+       
+        return 1;
+    }
+
+
+    if 
+        ((side1 + side2 > side3) && 
+        (side1 + side3 > side2) && 
+        (side2 + side3 > side1)) {
+        printf("P=: %.2f\n", get_perimeter(side1, side2, side3));
+        printf("S=: %.2f\n", get_area(side1, side2, side3));
+        
+    } else {
+        
+    }
+
+    return 0;
+}
+2 файл с
+#ifndef GEOMETRY_H
+#define GEOMETRY_H
+
+double get_perimeter(double a, double b, double c);
+double get_area(double a, double b, double c);
+
+#endif
+3 файл h
+#include "geometry.h"
+#include <math.h>
+
+
+double get_perimeter(double a, double b, double c) {
+    return a + b + c;
+}
+
+
+double get_area(double a, double b, double c) {
+    double p = (a + b + c) / 2.0; 
+    return sqrt(p * (p - a) * (p - b) * (p - c));
+}
