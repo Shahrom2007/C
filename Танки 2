@@ -1,0 +1,75 @@
+import numpy as np
+
+# --- ОРИГИНАЛЬНЫЙ КОД (Ввод координат Танка 1 и создание сетки) ---
+coord1 = input("Введи корд 1 (пример: 0:2, 2:4): ") # Ожидает строку вида "0:2, 2:4"
+# coord2 = input("Введи корд 2: ") # Можно раскомментировать для ввода coord2
+
+# Для теста, если coord1 пустой
+if not coord1: coord1 = "0:2, 2:4" 
+
+# Распаковка координат. numpy.s_ превращает строку в срезы для numpy
+try:
+    c1_y, c1_x = eval(f"np.s_[{coord1}]")
+    # c2_y, c2_x = eval(f"np.s_[{coord2}]") # Для второго танка
+    c2_y, c2_x = np.s_[3:5], np.s_[3:5] # Тестовые корды для танка 2
+except:
+    print("Ошибка формата координат!"); exit()
+
+board = np.zeros((10, 10), dtype=int)
+
+# Создание масок
+tank1_mask = np.zeros((10, 10), dtype=bool)
+tank1_mask[c1_y, c1_x] = True
+
+tank2_mask = np.zeros((10, 10), dtype=bool)
+tank2_mask[c2_y, c2_x] = True
+
+# Проверка столкновения корпусов
+overlap_exists = np.any(tank1_mask & tank2_mask)
+print(f"Overlap: {overlap_exists}")
+
+# Отрисовка на доске, если нет столкновения
+if not overlap_exists:
+    board[tank1_mask] += 1
+    board[tank2_mask] += 2
+
+# --- ДОПОЛНЕНИЕ: Механика стрельбы (Дуло и попадание) ---
+
+# 1. Задаем направление дула для Танка 1 (0-север, 1-восток, 2-юг, 3-запад)
+# В реальной игре это будет переменная состояния танка
+barrel_direction = 1 # Танк 1 стреляет на Восток
+
+# 2. Находим центр Танка 1 на сетке, чтобы знать, откуда летит снаряд
+# np.argwhere находит координаты ячеек с True в маске
+t1_cells = np.argwhere(tank1_mask)
+t1_center = t1_cells.mean(axis=0).astype(int) # Среднее арифметическое (y, x)
+
+# 3. Создаем маску для линии выстрела (путь снаряда)
+fire_line_mask = np.zeros((10, 10), dtype=bool)
+start_y, start_x = t1_center
+
+# Отрисовка луча на сетке в зависимости от направления
+if barrel_direction == 0: # Север
+    fire_line_mask[0:start_y, start_x] = True
+elif barrel_direction == 1: # Восток
+    fire_line_mask[start_y, start_x+1:10] = True
+elif barrel_direction == 2: # Юг
+    fire_line_mask[start_y+1:10, start_x] = True
+elif barrel_direction == 3: # Запад
+    fire_line_mask[start_y, 0:start_x] = True
+
+# 4. ПРОВЕРКА ПОПАДАНИЯ: Пересекается ли линия выстрела Т1 с маской Т2?
+hit_detected = np.any(fire_line_mask & tank2_mask)
+
+# --- ВЫВОД РЕЗУЛЬТАТОВ ---
+print("\n--- РЕЗУЛЬТАТЫ БОЯ ---")
+print(f"Позиция Танка 1 (центр): {t1_center}")
+print(f"Направление выстрела Т1: {barrel_direction} (1=Восток)")
+print(f"Попадание во второй танк: {'ЕСТЬ!' if hit_detected else 'Промах...'}")
+
+# Добавим линию выстрела на доску для визуализации (значение 5)
+if not overlap_exists:
+    board[fire_line_mask & ~tank1_mask] = 5 # ~tank1_mask чтобы не рисовать внутри себя
+
+print("\nИтоговая доска (1-Т1, 2-Т2, 5-Линия огня, 3-Зона столкновения):")
+print(board)
