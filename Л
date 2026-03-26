@@ -1,0 +1,48 @@
+import numpy as np
+
+# 1. Ввод координат (вводите через пробел, например: 0 2 2 4)
+print("Введите y_start y_end x_start x_end для Танка 1:")
+y1s, y1e, x1s, x1e = map(int, input().split())
+print("Введите те же параметры для Танка 2:")
+y2s, y2e, x2s, x2e = map(int, input().split())
+
+board = np.zeros((10, 10), dtype=int)
+
+# Создаем маски (как у вас в коде)
+tank1_mask = np.zeros((10, 10), dtype=bool)
+tank1_mask[y1s:y1e, x1s:x1e] = True
+
+tank2_mask = np.zeros((10, 10), dtype=bool)
+tank2_mask[y2s:y2e, x2s:x2e] = True
+
+# Проверка столкновения корпусов
+overlap_exists = np.any(tank1_mask & tank2_mask)
+print(f"Overlap: {overlap_exists}")
+
+# ДОПОЛНЕНИЕ: Механика стрельбы
+# Направление: 0-вверх, 1-вправо, 2-вниз, 3-влево
+direction = int(input("Куда стреляет Танк 1? (0-вверх, 1-вправо, 2-вниз, 3-влево): "))
+
+# Линия выстрела
+bullet_mask = np.zeros((10, 10), dtype=bool)
+center_y, center_x = (y1s + y1e) // 2, (x1s + x1e) // 2
+
+if direction == 0: bullet_mask[:center_y, center_x] = True
+elif direction == 1: bullet_mask[center_y, center_x+1:] = True
+elif direction == 2: bullet_mask[center_y+1:, center_x] = True
+elif direction == 3: bullet_mask[center_y, :center_x] = True
+
+# Проверка попадания
+hit = np.any(bullet_mask & tank2_mask)
+
+# Отрисовка на доске
+if not overlap_exists:
+    board[tank1_mask] = 1
+    board[tank2_mask] = 2
+    if hit:
+        print("ПОПАДАНИЕ!")
+        board[bullet_mask & tank2_mask] = 9 # Точка попадания
+    elif np.any(bullet_mask):
+        board[bullet_mask & ~tank1_mask] = 7 # Линия полета
+
+print(board)
