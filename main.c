@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include "geometry.h"
 
-// Функция для проверки существования треугольника
+
 int is_triangle(double a, double b, double c) {
-    // Проверка на положительность сторон
+
     if (a <= 0 || b <= 0 || c <= 0) {
         return 0;
     }
-    // Проверка неравенства треугольника
+
     if ((a + b > c) && (a + c > b) && (b + c > a)) {
         return 1;
     }
