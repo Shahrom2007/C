@@ -3,30 +3,31 @@
 #include "matrix.h"
 
 int main() {
+	int size;
+	int i ;
+	int j;
     int matrix_size;
-    double **resulting_matrix = NULL;
-
-    
+    double **resulting_matrix;
     printf("Enter matrix size:\n");
     scanf("%d", &matrix_size);
     
     // matrix_1
     double **matrix_1 = (double**)malloc(matrix_size * sizeof(double*));
-    for (int i = 0; i < matrix_size; i++) {
+    for(i=0; i < matrix_size; i++) {
         matrix_1[i] = (double*)malloc(matrix_size * sizeof(double));
     }
     
     printf("Enter numbers for your matrix_1\n");
-    for (int i = 0; i < matrix_size; i++) {
-        for (int j = 0; j < matrix_size; j++) {
+    for ( i = 0; i < matrix_size; i++) {
+        for ( j = 0; j < matrix_size; j++) {
             printf("Element - [%d][%d]: ", i, j);
             scanf("%lf", &matrix_1[i][j]);
         }
     }
     
     printf("Your matrix_1:\n");
-    for (int i = 0; i < matrix_size; i++) {
-        for (int j = 0; j < matrix_size; j++) {
+    for ( i = 0; i < matrix_size; i++) {
+        for ( j = 0; j < matrix_size; j++) {
             printf("%.2f\t", matrix_1[i][j]);
         }
         printf("\n");
@@ -34,21 +35,21 @@ int main() {
     
     //matrix_2
     double **matrix_2 = (double**)malloc(matrix_size * sizeof(double*));
-    for (int i = 0; i < matrix_size; i++) {
+    for ( i = 0; i < matrix_size; i++) {
         matrix_2[i] = (double*)malloc(matrix_size * sizeof(double));
     }
     
     printf("\nEnter numbers for your matrix_2\n");
-    for (int i = 0; i < matrix_size; i++) {
-        for (int j = 0; j < matrix_size; j++) {
+    for ( i = 0; i < matrix_size; i++) {
+        for ( j = 0; j < matrix_size; j++) {
             printf("Element - [%d][%d]: ", i, j);
             scanf("%lf", &matrix_2[i][j]);
         }
     }
     
     printf("Your matrix_2:\n");
-    for (int i = 0; i < matrix_size; i++) {
-        for (int j = 0; j < matrix_size; j++) {
+    for ( i = 0; i < matrix_size; i++) {
+        for ( j = 0; j < matrix_size; j++) {
             printf("%.2f\t", matrix_2[i][j]);
         }
         printf("\n");
@@ -76,23 +77,23 @@ int main() {
     
 
     printf("Result:\n");
-        for (int i = 0; i < matrix_size; i++) {
+        for ( i = 0; i < matrix_size; i++) {
             printf("\n");
-            for (int j = 0; j < matrix_size; j++) {
-                printf("%lf\t", resulting_matrix[i][j]);
+            for ( j = 0; j < matrix_size; j++) {
+                printf("%lf\t", resulting_matrix [i] [j]);
             }
         }
         printf("\n");
     
-    // освобождение памяти
-    for (int i = 0; i < matrix_size; i++) free(matrix_1[i]);
+    // îñâîáîæäåíèå ïàìÿòè
+    for ( i = 0; i < matrix_size; i++) free(matrix_1[i]);
     free(matrix_1);
-    
-    for (int i = 0; i < matrix_size; i++) free(matrix_2[i]);
+    matrix_1 = NULL;
+    for ( i = 0; i < matrix_size; i++) free(matrix_2[i]);
     free(matrix_2);
-    
-    for (int i = 0; i < matrix_size; i++) free(resulting_matrix[i]);
+    matrix_2 = NULL;
+    for ( i = 0; i < matrix_size; i++) free(resulting_matrix[i]);
     free(resulting_matrix);
-    
+    resulting_matrix = NULL;
     return 0;
 }
