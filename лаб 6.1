@@ -1,0 +1,38 @@
+#include <stdio.h>
+
+int main() {
+    
+	char familyname[64];
+	char name[64];
+	char ochestvo[64];
+    int year;
+
+    FILE *f1 = fopen("input.txt", "r"); 
+    if (f1 == NULL) {
+        printf("Error: \n");
+        return 1; 
+    }
+    printf("Great\n");
+     
+    FILE *f2 = fopen("result.txt", "r"); 
+    if (f2 == NULL) {
+        printf("Error\n");
+        return 1; 
+    }
+    printf("Great \n");
+
+    while (fscanf(f1, "%64s %64s %64s %d", familyname, name, ochestvo, &year) == 4) {
+        if (year > 1980) {
+            fprintf(f2, "%s %s %s %d\n", familyname, name, ochestvo, year);
+            
+        }
+        
+    }
+
+    fclose(f1);
+    fclose(f2);
+
+   
+
+    return 0;
+}
