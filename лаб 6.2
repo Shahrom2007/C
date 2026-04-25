@@ -1,0 +1,29 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+int main() {
+    char buffer[81];
+	char familyname[64];
+	char name[64];
+	char ochestvo[64];
+    int year;
+	setlocale(LC_ALL, "Russian");
+    FILE *f1 = fopen("input.txt", "r"); 
+    if (f1 == NULL) {
+        printf("Error: \n");
+        return 1; 
+    }
+	while (fscanf(f1, "%64s %64s %64s %d", familyname, name, ochestvo, &year) == 4) {
+        if (year > 1980) {
+			printf( "%s %s %s %d \n", familyname, name, ochestvo, year);
+		}	
+	}
+   while (fgets(buffer,81, f1) != NULL) {
+		if (year > 1980) {
+			printf("%s", buffer ); 
+    	}
+	}
+    fclose(f1);
+    
+    return 0;
+}
