@@ -1,0 +1,43 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+
+int main() {
+    FILE *f1, *f2;
+    char familyname[64];
+    char name[64];
+    char ochestvo[64];
+    char buffer[256];
+    int year;
+    setlocale(LC_ALL, "Russian");
+ 
+    f1 = fopen("input.txt", "r");
+    if (f1== NULL) {
+        printf("Ошибка: не удалось открыть файл input.txt\n");
+        return 1;
+    }
+
+    f2 = fopen("result.txt", "w");
+    if (f2 == NULL) {
+        printf("Ошибка: не удалось создать файл result1.txt\n");
+        fclose(f1);
+        return 1;
+    }
+
+    while (fscanf(f1, "%63s %63s %63s %d", familyname, name, ochestvo, &year) == 4) {
+        if (year > 1980) {
+            fprintf(f2, "%s %s %s %d\n", familyname, name, ochestvo, year);
+            printf("  %s %s %s %d\n", familyname, name, ochestvo, year);
+        }
+    }
+     while (fgets(buffer,81, f1) != NULL) {
+		if (year > 1980) {
+			printf("%s", buffer ); 
+    	}
+	}
+    fclose(f1);
+    fclose(f2);
+    
+    
+    return 0;
+}
