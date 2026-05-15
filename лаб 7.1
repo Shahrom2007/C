@@ -1,0 +1,51 @@
+
+#include <stdio.h>
+#include <locale.h>
+
+
+struct humen {
+    char name[64];
+    char familyname[64];
+    int year;
+};
+
+int main() {
+    setlocale(LC_ALL, "ru_RU.UTF-8");
+    struct humen persons[64];
+    struct humen M1[64]; 
+    struct humen M2[64]; 
+    int i, j;
+    FILE *f1 = fopen("input.txt", "r");
+    if (f1 == NULL) {
+        perror("");
+        return 1;
+    }
+    while (count < 64 && fscanf(f1, "%64s %64s %d", persons[count].familyname,  persons[count].name,  &persons[count].year) == 3) {
+        count++;
+    }
+    fclose(f1);
+
+    printf(" %d\n", count);
+    for (i = 0; i < count; i++) {
+        printf("%s %s (%d)\n", persons[i].familyname, persons[i].name, persons[i].year);
+    }
+
+
+    for (i = 0; i < count - 1; i++) {
+        for (j = 0; j < count - i - 1; j++) {
+            if (persons[j].year > persons[j + 1].year) {
+                struct humen temp = persons[j];
+                M2[j] = persons[j + 1];
+                M2[j + 1] = temp;
+            }
+        }
+    }
+
+
+    printf("\n");
+    for (i = 0; i < count; i++) {
+        printf("%s %s %d\n", persons[i].familyname, persons[i].name, persons[i].year);
+    }
+
+    return 0;
+}
