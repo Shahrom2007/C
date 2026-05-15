@@ -1,0 +1,42 @@
+#include <stdio.h>
+#include <locale.h>
+////////////////////////////
+struct humen {
+    char name[64];
+    char familyname[64];
+    int year;
+};
+////////////////////////////
+int main() {
+    setlocale(LC_ALL, "ru_RU.UTF-8");
+    struct humen M1[4]; 
+    struct humen M2[4]; 
+    int i ;
+	int j;
+////////////////////////////
+    for (i = 0; i < 4; i++) {
+        scanf("%63s %63s %d", M1[i].name, M1[i].familyname, &M1[i].year);
+    }
+
+////////////////////////////
+    for (i = 0; i < 4; i++) {
+        M2[i] = M1[i];
+    }
+////////////////////////////
+    for (i = 0; i < 3; i++) {
+        for (j = 0; j < 3 - i; j++) {
+            if (M2[j].year > M2[j + 1].year) {
+                struct humen empty = M2[j];
+                M2[j] = M2[j + 1];
+                M2[j + 1] = empty;
+            }
+        }
+    }
+////////////////////////////
+    printf("result:\n");
+    for (i = 0; i < 4; i++) {
+        printf("%s %s %d\n", M2[i].name, M2[i].familyname, M2[i].year);
+    }
+
+    return 0;
+}
