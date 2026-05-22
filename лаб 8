@@ -1,0 +1,69 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+
+////////////////////////////
+struct humen {
+    char name[64];
+    char familyname[64];
+    int year;
+    char gender[16];
+    int height;
+};
+////////////////////////////
+
+int main() {
+    setlocale(LC_ALL, "Russian");
+    struct humen M1[64];
+    struct humen M2[64];
+    int i, j;
+    int count = 0; 
+    
+    FILE *f1 = fopen("input.txt", "r");
+    if (f1 == NULL) {
+        printf("Error opening file\n");
+        return 1;
+    }
+
+    for (i = 0; i < 64; i++) {
+        if (fscanf(f1, "%63s %63s %d %15s %f", M1[i].name, M1[i].familyname, &M1[i].year, M1[i].gender, &M1[i].height) == 5) {
+            count++;
+        } else {
+            break; 
+        }
+    }
+    fclose(f1); 
+/////////////////////////////////////////////////////
+    for (i = 0; i < count; i++) {
+        M2[i] = M1[i];
+    }
+
+//////////////////////////////////////////
+    for (i = 0; i < count - 1; i++) {
+        for (j = 0; j < count - i - 1; j++) {
+            if (M2[j].year > M2[j + 1].year) {
+                struct humen temp = M2[j];
+                M2[j] = M2[j + 1];
+                M2[j + 1] = temp;
+            }
+        }
+    }
+
+/////////////////////////////////////////////////////////////
+    for (i = 0; i < count - 1; i++) {
+        for (j = 0; j < count - i - 1; j++) {
+            if (M2[j].height > M2[j + 1].height) {
+                struct humen temp = M2[j];
+                M2[j] = M2[j + 1];
+                M2[j + 1] = temp;
+            }
+        }
+    }
+/////////////////////////////////////////////////////////////
+    printf("\n");
+    for (i = 0; i < count; i++) {
+        printf("%s %s %d %s %.2f\n", M2[i].name, M2[i].familyname, M2[i].year, M2[i].gender, M2[i].height);
+    }
+
+    return 0;
+}
