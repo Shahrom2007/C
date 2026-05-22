@@ -1,0 +1,34 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+///////////////////////////////////
+int main() {
+    char str[256];
+    double result = 0;
+	double number;
+    char variable = '+';
+    int i = 0;
+ ///////////////////////////////////////
+    printf("Enter the express:");
+    fgets(str, sizeof(str), stdin);
+//////////////////////////////////////////////////////
+    while (str[i] != '\0') {
+        while (str[i] == ' ') i++;
+        if (str[i] == '+' || str[i] == '-') {
+            variable = str[i];
+            i++;
+            while (str[i] == ' ') i++;
+        }
+///////////////////////////////////////////
+        number = strtod(&str[i], NULL);
+////////////////////////////////////////////////
+        if (variable == '+') result += number;
+        else result -= number;
+/////////////////////////////////////////
+        while (str[i] != '\0' && str[i] != '+' && str[i] != '-') i++;
+    }
+////////////////////////////////////////////////////////
+    printf("Result: %g\n", result);
+    return 0;
+}
