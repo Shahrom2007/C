@@ -1,0 +1,75 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <locale.h>
+
+struct human {
+    char name[64];
+    char familyname[64];
+    int year;
+    int i;
+    int j;
+    char gender[16];
+    int height;
+};
+
+
+int compare(struct human a, struct human b, int choices[], int num_choices) {
+    int i;
+	for ( i = 0; i < num_choices; i++) {
+        int res = 0;
+        switch (choices[i]) {
+            case 1: res = strcmp(a.name, b.name); break;
+            case 2: res = strcmp(a.familyname, b.familyname); break;
+ 
+            case 3: res = b.year - a.year; break; 
+            case 4: res = b.height - a.height; break;
+        }
+        if (res != 0) return res; 
+    }
+    return 0; 
+}
+
+int main() {
+    struct human M1[64];
+    int count = 0;
+    int choices[2];
+    setlocale(LC_ALL, "Russian");
+
+    FILE *f1 = fopen("input.txt", "r");
+    if (f1 == NULL) {
+        printf("Error opening file\n");
+        return 1;
+    }
+
+    while (count < 64 && fscanf(f1, "%63s %63s %d %15s %d", 
+           M1[count].name, M1[count].familyname, &M1[count].year, 
+           M1[count].gender, &M1[count].height) == 5) {
+        count++;
+    }
+    fclose(f1);
+	int i;
+    printf("1-name, 2-familyname, 3-year, 4-height):\n");
+    for ( i = 0; i < 2; i++) {
+        scanf("%d", &choices[i]);
+    }
+
+
+    for ( i = 0; i < count - 1; i++) {
+        int j;
+		for ( j = 0; j < count - i - 1; j++) {
+            if (compare(M1[j], M1[j + 1], choices, 2) > 0) {
+                struct human temp = M1[j];
+                M1[j] = M1[j + 1];
+                M1[j + 1] = temp;
+            }
+        }
+    }
+
+    printf("\nSorted list:\n");
+    for (i = 0; i < count; i++) {
+        printf("%s %s %d %s %d\n", M1[i].name, M1[i].familyname, M1[i].year, M1[i].gender, M1[i].height);
+    }
+
+    return 0;
+}
