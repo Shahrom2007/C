@@ -1,0 +1,90 @@
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
+
+
+
+int main() {
+    char s[64];
+    int y; 
+	int m;
+	int d;
+    struct tm t = {0};
+/////////////////////////////////////////////////
+    printf("Enter the date (year.month.day / year.month / year / now): ");
+    scanf("%s", s);
+/////////////  Now
+    if (strcmp(s, "now") == 0) {
+        time_t tod;
+        time(&tod);
+        printf("Time is %s", ctime(&tod));
+        return 0;
+    }
+//////////// year.month.day and year.month and year and now
+    int n = sscanf(s,"%d.%d.%d", &y, &m, &d);
+////////////// year.month.day
+    if (n == 3) { 
+        t.tm_year = y - 1900;
+        t.tm_mon = m - 1;
+        t.tm_mday = d;
+        mktime(&t);
+        printf("day of the week: %s", asctime(&t));
+    }
+//////////////////year.month
+    else if (n == 2) {  
+        t.tm_year = y - 1900;
+        t.tm_mon = m - 1;
+//////////setting the 1st day of the month
+        t.tm_mday = 1;
+        mktime(&t);
+/////////////checking the leap year
+        int wd = t.tm_wday;
+        int leap = (y%400==0) || (y%4==0 && y%100!=0);
+        int days[] = {31, 28+leap, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+///////////////////how many empty cells are there before the first day of the month
+        int off = (wd == 0) ? 6 : wd - 1;
+        int i;
+        int day;
+        
+        
+        printf("\n%d.%02d\n", y, m);
+        printf("Mo Tu We Th Fr Sa Su\n");
+        
+        for ( i = 0; i < off; i++) printf("   ");
+        for ( day = 1; day <= days[m-1]; day++) {
+            printf("%2d ", day);
+            if ((off + day) % 7 == 0) printf("\n");
+        }
+        printf("\n");
+    }
+/////////// year
+    else if (n == 1) {  
+    	int month;
+    	int i;
+    	int day;
+        for ( month = 1; month <= 12; month++) {
+            t.tm_year = y - 1900;
+            t.tm_mon = month - 1;
+            t.tm_mday = 1;
+            mktime(&t);
+/////////////checking the leap year
+            int wd = t.tm_wday;
+            int leap = (y%400==0) || (y%4==0 && y%100!=0);
+            
+            int days[] = {31, 28+leap, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+            int off = (wd == 0) ? 6 : wd - 1;
+            
+            printf("\n%2d.%02d\n", y, month);
+            printf("Mo Tu We Th Fr Sa Su\n");
+//////////// dates of the month
+            for ( i = 0; i < off; i++) printf("   ");
+            for ( day = 1; day <= days[month-1]; day++) {
+                printf("%2d ", day);
+                if ((off + day) % 7 == 0) printf("\n");
+            }
+            printf("\n");
+        }
+    }
+    
+    return 0;
+}
