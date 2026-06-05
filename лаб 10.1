@@ -1,0 +1,27 @@
+#include <stdio.h>
+#define MAX
+
+int main() {
+    int arr[100];
+    int n = 0;
+    int num;
+    int max;
+    int i;
+    double sum = 0; 
+/////////////////////////////////
+    printf("Enter numbers: ");
+///////////////////////////////////
+    while (scanf("%d", &num) == 1) {
+        arr[n++] = num;
+        sum += num; 
+        if (getchar() == '\n') break;
+    }
+    max = arr[0];
+    for (i = 1; i < n; i++) {
+        max = MAX(max, arr[i]);
+    }
+///////////////////////////////
+    printf("Max: %d\n", max);
+    printf("Average: %.2f\n", sum / n); 
+    return 0;
+}
