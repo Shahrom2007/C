@@ -85,7 +85,7 @@ int main() {
         }
         printf("\n");
     
-    // îñâîáîæäåíèå ïàìÿòè
+
     for ( i = 0; i < matrix_size; i++) free(matrix_1[i]);
     free(matrix_1);
     matrix_1 = NULL;
