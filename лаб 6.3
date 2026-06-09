@@ -13,13 +13,13 @@ int main() {
  
     f1 = fopen("input.txt", "r");
     if (f1== NULL) {
-        printf("Ошибка: не удалось открыть файл input.txt\n");
+        printf("Error input.txt\n");
         return 1;
     }
 
     f2 = fopen("result.txt", "w");
     if (f2 == NULL) {
-        printf("Ошибка: не удалось создать файл result1.txt\n");
+        printf("Error result1.txt\n");
         fclose(f1);
         return 1;
     }
