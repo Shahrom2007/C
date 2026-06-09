@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <locale.h>
-
 struct human {
     char name[64];
     char familyname[64];
@@ -10,7 +9,6 @@ struct human {
     char gender[16];
     int height;
 };
-
 int compare(struct human a, struct human b, int choices[], int num_choices) {
     int i;
     for (i = 0; i < num_choices; i++) {
@@ -25,7 +23,6 @@ int compare(struct human a, struct human b, int choices[], int num_choices) {
     }
     return 0;
 }
-
 int main() {
     setlocale(LC_ALL, "Russian");
 
@@ -34,8 +31,6 @@ int main() {
         printf("error!\n");
         return 1;
     }
-
-    // --- Подсчёт строк ---
     int count = 0;
     char buffer[256];
     while (fgets(buffer, sizeof(buffer), f1) != NULL) {
@@ -43,24 +38,18 @@ int main() {
             count++;
         }
     }
-
     if (count == 0) {
         printf("Файл пуст!\n");
         fclose(f1);
         return 1;
     }
-
-    // !!! ГЛАВНОЕ ИСПРАВЛЕНИЕ: возвращаем указатель в начало файла !!!
     rewind(f1);
-
     struct human *M1 = malloc(count * sizeof(struct human));
     if (M1 == NULL) {
         printf("error\n");
         fclose(f1);
         return 1;
     }
-
-    // --- Чтение данных ---
     int i = 0;
     while (i < count && fscanf(f1, "%63s %63s %d %15s %d",
            M1[i].name, M1[i].familyname, &M1[i].year,
@@ -68,15 +57,11 @@ int main() {
         i++;
     }
     fclose(f1);
-
-    // --- Ввод критериев сортировки ---
     int choices[2];
     printf("1-name 2-familyname 3-year 4-height:\n");
     for (i = 0; i < 2; i++) {
         scanf("%d", &choices[i]);
     }
-
-    // --- Сортировка пузырьком ---
     for (i = 0; i < count - 1; i++) {
         int j;
         for (j = 0; j < count - i - 1; j++) {
@@ -87,15 +72,12 @@ int main() {
             }
         }
     }
-
-    // --- Вывод ---
     printf("\nSorted list:\n");
     for (i = 0; i < count; i++) {
         printf("%s %s %d %s %d\n",
                M1[i].name, M1[i].familyname,
                M1[i].year, M1[i].gender, M1[i].height);
     }
-
     free(M1);
     return 0;
 }
