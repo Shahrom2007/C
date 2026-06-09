@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "matrix.h"
-
 int main() {
 	int size;
 	int i ;
@@ -10,13 +9,11 @@ int main() {
     double **resulting_matrix;
     printf("Enter matrix size:\n");
     scanf("%d", &matrix_size);
-    
     // matrix_1
     double **matrix_1 = (double**)malloc(matrix_size * sizeof(double*));
     for(i=0; i < matrix_size; i++) {
         matrix_1[i] = (double*)malloc(matrix_size * sizeof(double));
     }
-    
     printf("Enter numbers for your matrix_1\n");
     for ( i = 0; i < matrix_size; i++) {
         for ( j = 0; j < matrix_size; j++) {
@@ -24,7 +21,6 @@ int main() {
             scanf("%lf", &matrix_1[i][j]);
         }
     }
-    
     printf("Your matrix_1:\n");
     for ( i = 0; i < matrix_size; i++) {
         for ( j = 0; j < matrix_size; j++) {
@@ -32,13 +28,11 @@ int main() {
         }
         printf("\n");
     }
-    
     //matrix_2
     double **matrix_2 = (double**)malloc(matrix_size * sizeof(double*));
     for ( i = 0; i < matrix_size; i++) {
         matrix_2[i] = (double*)malloc(matrix_size * sizeof(double));
     }
-    
     printf("\nEnter numbers for your matrix_2\n");
     for ( i = 0; i < matrix_size; i++) {
         for ( j = 0; j < matrix_size; j++) {
@@ -46,7 +40,6 @@ int main() {
             scanf("%lf", &matrix_2[i][j]);
         }
     }
-    
     printf("Your matrix_2:\n");
     for ( i = 0; i < matrix_size; i++) {
         for ( j = 0; j < matrix_size; j++) {
@@ -54,12 +47,10 @@ int main() {
         }
         printf("\n");
     }
-    
     // +, -, *
     printf("\n+, -, *?\n");
     char operation;
     scanf(" %c", &operation);
-    
     switch (operation) {
         case '*':
             resulting_matrix = multiply(matrix_size, matrix_1, matrix_2);
@@ -74,8 +65,6 @@ int main() {
             printf("Invalid operation!\n");
             return 1;
     }
-    
-
     printf("Result:\n");
         for ( i = 0; i < matrix_size; i++) {
             printf("\n");
@@ -84,8 +73,6 @@ int main() {
             }
         }
         printf("\n");
-    
-
     for ( i = 0; i < matrix_size; i++) free(matrix_1[i]);
     free(matrix_1);
     matrix_1 = NULL;
