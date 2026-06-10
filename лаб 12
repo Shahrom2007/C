@@ -1,9 +1,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
-
-
-
 int main() {
     char s[64];
     int y; 
@@ -45,11 +42,8 @@ int main() {
         int off = (wd == 0) ? 6 : wd - 1;
         int i;
         int day;
-        
-        
         printf("\n%d.%02d\n", y, m);
         printf("Mo Tu We Th Fr Sa Su\n");
-        
         for ( i = 0; i < off; i++) printf("   ");
         for ( day = 1; day <= days[m-1]; day++) {
             printf("%2d ", day);
@@ -70,10 +64,8 @@ int main() {
 /////////////checking the leap year
             int wd = t.tm_wday;
             int leap = (y%400==0) || (y%4==0 && y%100!=0);
-            
             int days[] = {31, 28+leap, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
             int off = (wd == 0) ? 6 : wd - 1;
-            
             printf("\n%2d.%02d\n", y, month);
             printf("Mo Tu We Th Fr Sa Su\n");
 //////////// dates of the month
@@ -85,6 +77,5 @@ int main() {
             printf("\n");
         }
     }
-    
     return 0;
 }
