@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include <signal.h>
+#include <setjmp.h>
+#include <stdlib.h>
+/////////////////////////////////////////k
+jmp_buf env;    
+///////////////////////////
+void handler(int sig) {
+    switch (sig) {
+        case SIGABRT: printf("The signal SIGABRT (аварийное завершение)\n"); break;
+        case SIGFPE:  printf("The signal SIGFPE (ошибка с плавающей точкой)\n"); break;
+        case SIGILL:  printf("The signal SIGILL (недопустимая инструкция)\n"); break;
+        case SIGINT:  printf("The signal SIGINT (прерывание с клавиатуры)\n"); break;
+        case SIGSEGV: printf("The signal SIGSEGV (нарушение сегментации)\n"); break;
+        case SIGTERM: printf("The signal SIGTERM (запрос завершения)\n"); break;
+        default:      printf("Unknown signal\n");
+    }
+    longjmp(env, 1);   
+}
+///////////////////////////////////////////////////////////
+int main() {
+    if (signal(SIGABRT, handler) == SIG_ERR) { perror("signal SIGABRT"); return 1; }
+    if (signal(SIGFPE,  handler) == SIG_ERR) { perror("signal SIGFPE");  return 1; }
+    if (signal(SIGILL,  handler) == SIG_ERR) { perror("signal SIGILL");  return 1; }
+    if (signal(SIGINT,  handler) == SIG_ERR) { perror("signal SIGINT");  return 1; }
+    if (signal(SIGSEGV, handler) == SIG_ERR) { perror("signal SIGSEGV"); return 1; }
+    if (signal(SIGTERM, handler) == SIG_ERR) { perror("signal SIGTERM"); return 1; }
+///////////////////////////////////////////////
+    if (setjmp(env) != 0) {
+        printf("Return to the menu\n\n");
+    }
+///////////////////////////////
+    int choice;
+    do {
+        printf("Select a signal:\n");
+        printf("1) SIGABRT\n");
+        printf("2) SIGFPE\n");
+        printf("3) SIGILL\n");
+        printf("4) SIGINT\n");
+        printf("5) SIGSEGV\n");
+        printf("6) SIGTERM\n");
+        printf("7) SIGFPE (division by zero)\n");
+        printf("0) exit\n");
+        printf("\n");
+        scanf("%d", &choice);
+//////////////////////////////////////////////////////
+        switch (choice) {
+            case 1: raise(SIGABRT); break;
+            case 2: raise(SIGFPE);  break;
+            case 3: raise(SIGILL);  break;
+            case 4: raise(SIGINT);  break;
+            case 5: raise(SIGSEGV); break;
+            case 6: raise(SIGTERM); break;
+            case 0: printf("Completion of the program.\n"); break;
+        }
+    } while (choice != 0);
+
+    return 0;
+}
