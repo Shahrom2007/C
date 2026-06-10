@@ -1,0 +1,43 @@
+#include <stdio.h>
+///////////////////////////////////////////////
+int count_set_bits(const void* data, size_t size) {
+    int count = 0;
+    int size_t;
+    int i;
+////////////////////////////////////////////////////////
+    const unsigned char* bytes = (const unsigned char*)data;
+///////////////////////////////////////////////////////////////
+    for (i = 0; i < size; i++) {
+        unsigned char byte = bytes[i];
+///////////////////////////////////////////////////////////
+        while (byte > 0) {
+            count += byte & 1; 
+            byte >>= 1;        
+        }
+    }
+    return count;
+}
+///////////////////////////////////////////////
+int main() {
+    long l_num;
+    double d_num;
+///////////////////////////////////////////////
+    printf("Enter a number like long: ");
+    if (scanf("%ld", &l_num) != 1) {
+        return 1;
+    }
+/////////////////////////////////////////////
+    printf("Enter a number like double: ");
+    if (scanf("%lf", &d_num) != 1) {
+        return 1;
+    }
+///////////////////////////////////////////////
+    int bits_long = count_set_bits(&l_num, sizeof(long));
+    int bits_double = count_set_bits(&d_num, sizeof(double));
+//////////////////////////////////////////////////
+    printf("\nResults:\n");
+    printf("Number of bits in long:   %d\n", bits_long);
+    printf("Number of bits in double: %d\n", bits_double);
+
+    return 0;
+}
