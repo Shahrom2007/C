@@ -1,0 +1,12 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+#include <time.h>
+int main() {
+	setlocale(LC_ALL, "ru_RU.UTF-8");
+	clock_t start_time = clock();
+ 	 	double cpu_time = ((double)(clock() - start_time)) / CLOCKS_PER_SEC;
+ 		printf("\n Time jop: %.6f second",cpu_time);
+
+    return 0;
+}
