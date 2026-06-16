@@ -1,0 +1,85 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int main() {
+    int N, M;
+    
+    // Запрос параметров
+    printf("Введите количество случайных чисел N: ");
+    scanf("%d", &N);
+    printf("Введите количество столбцов M для матрицы: ");
+    scanf("%d", &M);
+
+    clock_t start_time = clock();
+
+    // 1. Создание файла input.txt
+    int *arr = (int*)malloc(N * sizeof(int));
+    srand(time(NULL));
+
+    FILE *f_in = fopen("input.txt", "w");
+    if (!f_in) {
+        printf("Ошибка открытия файла!\n");
+        return 1;
+    }
+    for (int i = 0; i < N; i++) {
+        arr[i] = rand() % 100 + 1; // Числа от 1 до 100
+        fprintf(f_in, "%d ", arr[i]);
+    }
+    fclose(f_in);
+    free(arr); // Очистка массива по условию
+    arr = NULL;
+
+    // 2. Чтение из файла и обработка (замена чисел)
+    arr = (int*)malloc(N * sizeof(int));
+    f_in = fopen("input.txt", "r");
+    for (int i = 0; i < N; i++) {
+        fscanf(f_in, "%d", &arr[i]);
+    }
+    fclose(f_in);
+
+    FILE *f_out = fopen("output.txt", "w");
+    fprintf(f_out, "Обработанный список:\n");
+    for (int i = 0; i < N; i++) {
+        if (arr[i] % 35 == 0) fprintf(f_out, "ПЯТЬСЕМЬ ");
+        else if (arr[i] % 5 == 0) fprintf(f_out, "ПЯТЬ ");
+        else if (arr[i] % 7 == 0) fprintf(f_out, "СЕМЬ ");
+        else fprintf(f_out, "%d ", arr[i]);
+    }
+    fclose(f_out);
+
+    // 3. Формирование матрицы (преобразование в M столбцов)
+    int rows = N / M;
+    printf("\nМатрица (%d строк, %d столбцов):\n", rows, M);
+    
+    // Вывод матрицы на экран
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < M; j++) {
+            printf("%d\t", arr[i * M + j]);
+        }
+        printf("\n");
+    }
+
+    // Расчет и вывод сумм строк и столбцов
+    printf("\nСуммы строк:\n");
+    for (int i = 0; i < rows; i++) {
+        int sum_row = 0;
+        for (int j = 0; j < M; j++) sum_row += arr[i * M + j];
+        printf("Строка %d: %d\n", i + 1, sum_row);
+    }
+
+    printf("\nСуммы столбцов:\n");
+    for (int j = 0; j < M; j++) {
+        int sum_col = 0;
+        for (int i = 0; i < rows; i++) sum_col += arr[i * M + j];
+        printf("Столбец %d: %d\n", j + 1, sum_col);
+    }
+
+    // Финальная очистка
+    free(arr);
+    
+    double cpu_time = ((double)(clock() - start_time)) / CLOCKS_PER_SEC;
+    printf("\nВремя работы программы: %f секунд\n", cpu_time);
+
+    return 0;
+}
