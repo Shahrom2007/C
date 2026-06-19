@@ -31,7 +31,7 @@ int main() {
     srand(time(NULL));
     FILE *f_date = fopen("date.txt", "r");
     if (!f_date) {
-        // Åñëè ôàéëà íåò — ñîçäàäèì åãî
+
         f_date = fopen("date.txt", "w");
         fprintf(f_date, "25 12 2026\n");
         fclose(f_date);
@@ -52,7 +52,7 @@ int main() {
 
     int sum1, sum2;
     do {
-        // Çàïîëíÿåì ñëó÷àéíûìè ÷èñëàìè
+
         fill_matrix(matrix1, N);
         fill_matrix(matrix2, N);
 
