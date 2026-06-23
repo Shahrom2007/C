@@ -1,0 +1,17 @@
+Изменение местами пары элементов 
+int *mat1_swapped = (int*)malloc(size * size * sizeof(int));
+    for (i = 0; i < size * size; i++) {
+        mat1_swapped[i] = mat1[i];
+    }
+    
+    for (i = 0; i < size * size - 1; i += 2) {
+        int temp = mat1_swapped[i];
+        mat1_swapped[i] = mat1_swapped[i + 1];
+        mat1_swapped[i + 1] = temp;
+    }
+    
+    fprintf(f, "\nMatrix1 after swapping pairs (1-2, 3-4, 5-6, ...):\n");
+    write_matrix(f, mat1_swapped, size);
+    
+    free(mat1_swapped);
+    
