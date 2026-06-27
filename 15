@@ -1,0 +1,22 @@
+#include <stdio.h>
+
+void backward (int n) {
+    if (n == 0) return;
+    printf ("%d ", n % 10);
+    backward (n / 10);
+}
+void forward (int n) {
+    if (n == 0) return;
+    forward (n / 10);
+    printf ("%d ", n % 10);
+}
+
+int main(void) {
+    int n;
+    printf ("Enter a number: ");
+    scanf("%d", &n);
+    backward (n);
+    printf ("\n");
+    forward (n);
+    return 0;
+}
